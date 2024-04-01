@@ -1,14 +1,12 @@
 const movies = require("../data/movies");
 
 function filmSeparation(movies, details = true) {
-  return movies.reduce((acc, movie)=>{
-    movie.genero.forEach((genero)=> {
-      const {anoLancamento, avaliacao, diretor, id, titulo} = movie
-      const movieDetails = details === false ? titulo : {anoLancamento, avaliacao, diretor, id, titulo}
-
+  return movies.reduce((acc, {anoLancamento, avaliacao, diretor, id, titulo, genero})=>{
+    const movieDetails = details ? {anoLancamento, avaliacao, diretor, id, titulo} : titulo 
+    genero.forEach((genero)=> {
       acc[genero] ? acc[genero].push(movieDetails) : acc[genero] = [movieDetails]
       
-      details === false ? acc[genero].sort() : acc[genero].sort((a,b)=> a.titulo.localeCompare(b.titulo))
+      details ? acc[genero].sort((a,b)=> a.titulo.localeCompare(b.titulo)) : acc[genero].sort()
     })
   return acc
   }, {})
